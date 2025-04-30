@@ -1,0 +1,15 @@
+{
+  "name": "Shivai-031",
+  "version": "1.0.0",
+  "description": "An AI assistant similar to Grok",
+  "main": "api/Create_chat.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel"
+  },
+  "dependencies": {
+    "openai": "^4.0.0"
+  },
+  "author": "Shiva",
+  "license": "MIT"
+}
