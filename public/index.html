@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Shivai AI Assistant</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 20px; }
+      #response { margin-top: 10px; padding: 10px; border: 1px solid #ccc; }
+    </style>
+  </head>
+  <body>
+    <h1>Shivai AI Assistant</h1>
+    <input type="text" id="query" placeholder="Ask me anything..." style="padding: 5px; width: 300px;" />
+    <button onclick="sendQuery()">Send</button>
+    <p id="response"></p>
+    <script>
+      let context = [];
+      async function sendQuery() {
+        const query = document.getElementById("query").value;
+        const responseDiv = document.getElementById("response");
+        if (!query.trim()) {
+          responseDiv.textContent = "Please enter a valid question!";
+          return;
+        }
+        responseDiv.textContent = "Loading...";
+        const res = await fetch("/api/create-chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: query, context: context }),
+        });
+        const data = await res.json();
+        if (data.error) {
+          responseDiv.textContent = `Error: ${data.error}`;
+        } else {
+          responseDiv.textContent = data.reply || "No reply available.";
+          if (data.code) {
+            responseDiv.innerHTML += `<pre>${data.code}</pre>`;
+          }
+          context = data.context; // Update context for next query
+        }
+        document.getElementById("query").value = ""; // Clear input
+      }
+    </script>
+  </body>
+</html>
