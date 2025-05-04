@@ -11,6 +11,11 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Add a simple GET endpoint for the root path
+app.get('/', (req, res) => {
+  res.send('Welcome to Shivai-031! This is an AI assistant API. Use POST /ask to interact with the assistant.');
+});
+
 // API endpoint to handle queries
 app.post('/ask', async (req, res) => {
   try {
